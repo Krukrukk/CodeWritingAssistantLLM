@@ -37,21 +37,22 @@ To get started with My Code Generation App, follow these installation steps:
    ```
 
 2. **Set Up a Python Virtual Environment** (Optional but recommended):
-    ```bash
+   ```bash
     python -m venv llm_venv
     source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-    ```
+   ```
 
 3. **Install Dependencies:**
-    ```bash
+   ```bash
     pip install -r requirements.txt
-    ```
+   ```
 
 ## Usage
    To launch the application, run:
-    ```bash
+    ```
     streamlit run app.py 
     ```
+    
 Navigate to the displayed URL in your web browser to interact with the app.
 
 ## License
