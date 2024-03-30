@@ -1,58 +1,77 @@
+"""
+Title: CodeWritingAssistantLLM App
+Author: Maciej Małecki
+Last_update: 2024-03-30
+"""
 import streamlit as st
+from script.sys_tools import check_gpu, print_memory_footprint
 from script.LLM_fun import initialize_model, generate_text  
-import torch
-
-# Function to check GPU availability and details
-def check_gpu():
-    if torch.cuda.is_available():
-        gpu_name = torch.cuda.get_device_name(0)
-        gpu_memory = torch.cuda.get_device_properties(0).total_memory / 1e9  
-        return True, gpu_name, gpu_memory
-    else:
-        return False, None, None
 
 # Title and Logo
-st.title("My Code Generation App")
-st.image("logo.png", width=100)  # Adjust path and size as needed
-st.write("This application will assist you in writing code using LLM StarCoder2 ^1")
+st.title("CodeWritingAssistantLLM App")
+# st.image("logo.png", width=100)  # Adjust path and size as needed
+st.write("This application will assist you in writing code using LLM.")
 
-# Check GPU Status
-gpu_status, gpu_name, gpu_memory = check_gpu()
-if gpu_status:
-    st.success(f"✔️ GPU Connected: {gpu_name}, Memory: {gpu_memory:.2f} GB")
-else:
-    st.error("You need to correctly install the drivers for your graphics card in order to use the application.")
-    st.stop()
-    
+with st.container():
+    st.header("Instructions")
+    st.write("""The main task of the assistant is to suggest the dower 
+             part of the code you have written. In order to be able to do this, 
+             you first need to load/download the appropriate model, and then enter 
+             your code that you want to improve. After pressing button 'Generate', you will be 
+             offered to develop your code. If you think you want to continue generating, 
+             click 'Move' to move all the generated text to the input compartment. Have fun!""")
+
+with st.container():
+    st.header("Check GPU Status")
+    gpu_status, gpu_name, gpu_memory = check_gpu()
+    if gpu_status:
+        st.success(f"✔️ GPU Connected: {gpu_name}, Memory: {gpu_memory:.2f} GB")
+    else:
+        st.error("You need to correctly install the drivers for your graphics card in order to use the application.")
+        st.stop()
+
+# Model Initialization Section
 with st.container():
     st.header("Initialize Model")
     checkpoint = st.text_input("Model Checkpoint", value="bigcode/starcoder2-3b")
-
-    # Initialize a session state variable for model initialization status if it does not already exist
     if 'model_initialized' not in st.session_state:
         st.session_state['model_initialized'] = False
 
-    # The button is disabled if the model is already initialized, based on the session state variable
     if not st.session_state['model_initialized']:
+        # After model initialization
         if st.button("Initialize"):
             try:
                 tokenizer, model = initialize_model(checkpoint)
                 st.session_state['model'] = model
                 st.session_state['tokenizer'] = tokenizer
                 st.session_state['model_initialized'] = True 
-                st.success("Model initialized successfully!")
+                memory_footprint = print_memory_footprint(model)
+                st.success(f"Model initialized successfully! Memory used by the model: {memory_footprint}")
             except Exception as e:
                 st.error(f"Failed to initialize the model: {e}")
     else:
         st.success("Model already initialized. Ready to generate text!") 
 
-# Section for Text Generation Input
+# Text Generation Input Section
 with st.container():
     st.header("Generate Code")
-    input_text = st.text_area("Input Text", value="def tell_me_truth(text):", height=150)
+    input_text = st.text_area("Input Text", value=st.session_state.get('generated_text', "def hello_world_in_country(country: str):"), height=300)
+    max_new_tokens = st.slider("Number of New Tokens", min_value=1, max_value=128, value=20)
+    
     if st.button("Generate"):
         if 'model' in st.session_state and 'tokenizer' in st.session_state:
-            generated_text = generate_text(st.session_state['tokenizer'], st.session_state['model'], input_text)
-            st.text_area("Generated Code", value=generated_text, height=250, disabled=True)
+            generated_text = generate_text(st.session_state['tokenizer'], st.session_state['model'], input_text, max_new_tokens=max_new_tokens)
+            st.session_state['generated_text'] = generated_text  # Save generated text to session state
+            st.text_area("Generated Code", value=generated_text, height=400, disabled=True)
         else:
             st.warning("Please initialize the model first.")
+
+# Button to Move Generated Code to Input
+if st.button("↻ Move"):
+    if 'generated_text' in st.session_state:
+        # Update the input text area with the generated text
+        st.session_state['input_text'] = st.session_state['generated_text']
+        # This will automatically update the input text area since its value is tied to 'input_text' session state
+    else:
+        st.warning("Please generate some code first.")
+
