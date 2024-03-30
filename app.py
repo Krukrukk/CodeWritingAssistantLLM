@@ -14,12 +14,12 @@ st.write("This application will assist you in writing code using LLM.")
 
 with st.container():
     st.header("Instructions")
-    st.write("""The main task of the assistant is to suggest the dower 
-             part of the code you have written. In order to be able to do this, 
-             you first need to load/download the appropriate model, and then enter 
-             your code that you want to improve. After pressing button 'Generate', you will be 
-             offered to develop your code. If you think you want to continue generating, 
-             click 'Move' to move all the generated text to the input compartment. Have fun!""")
+    st.write("""The primary function of the assistant is to provide suggestions on what could logically follow 
+    the code the user has written. To utilize this feature, the user must initially load or download the appropriate model. 
+    Following this, the user should input the code they wish to extend. Upon pressing the "Generate" button, 
+    the assistant will expand the code to the specified length (using a slider). If the user wishes to continue 
+    expanding their code further, they can click "Move" to move the entire generated output back to the input field. 
+    This allows for continuous code generation using the model. Enjoy your coding experience!""")
     st.write("The application was created for training purposes and will not be used for commercial purposes.")
 with st.container():
     st.header("Check GPU Status")
