@@ -48,9 +48,9 @@ To get started with My Code Generation App, follow these installation steps:
     ```
 
 ## Usage
-To launch the application, run:
+   To launch the application, run:
     ```bash
-    streamlit run app.py
+    streamlit run app.py 
     ```
 Navigate to the displayed URL in your web browser to interact with the app.
 
