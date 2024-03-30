@@ -20,7 +20,7 @@ with st.container():
              your code that you want to improve. After pressing button 'Generate', you will be 
              offered to develop your code. If you think you want to continue generating, 
              click 'Move' to move all the generated text to the input compartment. Have fun!""")
-
+    st.write("The application was created for training purposes and will not be used for commercial purposes.")
 with st.container():
     st.header("Check GPU Status")
     gpu_status, gpu_name, gpu_memory = check_gpu()
@@ -47,7 +47,7 @@ with st.container():
                 st.session_state['model_initialized'] = True 
                 memory_footprint = print_memory_footprint(model)
                 if gpu_memory >= memory_footprint:
-                    st.success(f"Model initialized successfully! Memory used by the model: {memory_footprint}")
+                    st.success(f"Model initialized successfully! Memory used by the model: {memory_footprint:.2f} GB")
                 else:   
                     st.error(f"Insufficient GPU memory: {gpu_memory:.2f} GB available, but {memory_footprint:.2f} GB is required.")
                     st.stop()
@@ -78,4 +78,6 @@ if st.button("↻ Move"):
         # This will automatically update the input text area since its value is tied to 'input_text' session state
     else:
         st.warning("Please generate some code first.")
+
+
 

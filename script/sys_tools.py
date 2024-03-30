@@ -25,7 +25,7 @@ def check_gpu():
     
 def print_memory_footprint(model: AutoModelForCausalLM):
     """
-    Print the memory footprint of the given model in megabytes (MB).
+    Print the memory footprint of the given model in gigabytes (GB).
 
     This function retrieves the memory footprint of the model using its
     `get_memory_footprint` method, converts it to megabytes, and prints it in
@@ -37,8 +37,8 @@ def print_memory_footprint(model: AutoModelForCausalLM):
              memory footprint in bytes.
 
     Returns:
-    None. This function directly prints the memory footprint to the console.
+    string. This function return the memory footprint in gigabytes (GB).
     """
     memory_footprint_bytes = model.get_memory_footprint()
-    memory_footprint_mb = memory_footprint_bytes / 1e6
-    return f"{memory_footprint_mb:.2f} MB"
+    memory_footprint_mb = memory_footprint_bytes / 1e9
+    return memory_footprint_mb
