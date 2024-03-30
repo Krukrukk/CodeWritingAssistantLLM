@@ -46,7 +46,11 @@ with st.container():
                 st.session_state['tokenizer'] = tokenizer
                 st.session_state['model_initialized'] = True 
                 memory_footprint = print_memory_footprint(model)
-                st.success(f"Model initialized successfully! Memory used by the model: {memory_footprint}")
+                if gpu_memory >= memory_footprint:
+                    st.success(f"Model initialized successfully! Memory used by the model: {memory_footprint}")
+                else:   
+                    st.error(f"Insufficient GPU memory: {gpu_memory:.2f} GB available, but {memory_footprint:.2f} GB is required.")
+                    st.stop()
             except Exception as e:
                 st.error(f"Failed to initialize the model: {e}")
     else:
