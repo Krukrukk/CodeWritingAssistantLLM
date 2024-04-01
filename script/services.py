@@ -143,3 +143,6 @@ def create_code_move_button():
             st.session_state["input_text"] = st.session_state["generated_text"]
         else:
             st.warning("Please generate some code first.")
+
+def draw_sep_line():
+    st.write("____")
