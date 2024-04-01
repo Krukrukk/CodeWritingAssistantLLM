@@ -1,6 +1,7 @@
 import torch
 from transformers import AutoModelForCausalLM
 
+
 def check_gpu():
     """
     Check if a CUDA-capable GPU is available and return its name and memory information.
@@ -18,11 +19,14 @@ def check_gpu():
     """
     if torch.cuda.is_available():
         gpu_name = torch.cuda.get_device_name(0)
-        gpu_memory = torch.cuda.get_device_properties(0).total_memory / 1e9  # Convert bytes to gigabytes
+        gpu_memory = (
+            torch.cuda.get_device_properties(0).total_memory / 1e9
+        )  # Convert bytes to gigabytes
         return True, gpu_name, gpu_memory
     else:
         return False, None, None
-    
+
+
 def print_memory_footprint(model: AutoModelForCausalLM):
     """
     Print the memory footprint of the given model in gigabytes (GB).
