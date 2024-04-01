@@ -1,3 +1,4 @@
+![Python 3.11](https://img.shields.io/badge/python-3.11-brightgreen) ![CUDA 12.1](https://img.shields.io/badge/CUDA-12.1-brightgreen)
 # CodeWritingAssistantLLM
 The CodeWritingAssistantLLM app is an innovative programming assistant designed to support developers in creating code quickly and efficiently using advanced natural language models (LLM). 
 
