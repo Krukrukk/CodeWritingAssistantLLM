@@ -34,7 +34,7 @@ To get started with My Code Generation App, follow these installation steps:
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/Krukrukk/CodeWritingAssistantLLM.git
-   cd my-code-generation-app
+   cd CodeWritingAssistantLLM
    ```
 
 2. **Set Up a Python Virtual Environment** (Optional but recommended):
